@@ -1,0 +1,21 @@
+{
+    "name": "qiutuleng/laravel-passport-phone-verification-code",
+    "description": "A phone verification code token grant for Laravel Passport",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Qiu Tuleng",
+            "email": "qiutuleng@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.6.4",
+        "laravel/passport": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "QiuTuleng\\PhoneVerificationCodeGrant\\": "src/"
+        }
+    },
+    "minimum-stability": "dev"
+}
