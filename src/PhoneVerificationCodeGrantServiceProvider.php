@@ -3,6 +3,10 @@
 namespace QiuTuleng\PhoneVerificationCodeGrant;
 
 use Illuminate\Support\ServiceProvider;
+use Laravel\Passport\Bridge\RefreshTokenRepository;
+use Laravel\Passport\Passport;
+use League\OAuth2\Server\AuthorizationServer;
+use QiuTuleng\PhoneVerificationCodeGrant\Bridge\UserRepository;
 
 class PhoneVerificationCodeGrantServiceProvider extends ServiceProvider
 {
@@ -13,6 +17,20 @@ class PhoneVerificationCodeGrantServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        $this->app
+            ->make(AuthorizationServer::class)
+            ->enableGrantType($this->makeVerificationCodeGrant(), Passport::tokensExpireIn());
+    }
+
+    protected function makeVerificationCodeGrant()
+    {
+        $grant = new PhoneVerificationCodeGrant(
+            $this->app->make(UserRepository::class),
+            $this->app->make(RefreshTokenRepository::class)
+        );
+
+        $grant->setRefreshTokenTTL(Passport::refreshTokensExpireIn());
+
+        return $grant;
     }
 }
