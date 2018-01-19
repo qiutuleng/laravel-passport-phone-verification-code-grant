@@ -17,5 +17,15 @@
             "QiuTuleng\\PhoneVerificationCodeGrant\\": "src/"
         }
     },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.0-dev"
+        },
+        "laravel": {
+            "providers": [
+                "QiuTuleng\\PhoneVerificationCodeGrant\\PhoneVerificationCodeGrantServiceProvider"
+            ]
+        }
+    },
     "minimum-stability": "dev"
 }
