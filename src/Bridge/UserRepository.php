@@ -4,6 +4,7 @@ namespace QiuTuleng\PhoneVerificationCodeGrant\Bridge;
 
 use Laravel\Passport\Bridge\User;
 use League\OAuth2\Server\Exception\OAuthServerException;
+use QiuTuleng\PhoneVerificationCodeGrant\Interfaces\PhoneVerificationCodeGrantUserInterface;
 use RuntimeException;
 use League\OAuth2\Server\Entities\ClientEntityInterface;
 use League\OAuth2\Server\Repositories\UserRepositoryInterface;
@@ -17,24 +18,20 @@ class UserRepository implements UserRepositoryInterface
     {
         $provider = config('auth.guards.api.provider');
 
-        if (is_null($model = config('auth.providers.'.$provider.'.model'))) {
+        if (is_null($model = config('auth.providers.' . $provider . '.model'))) {
             throw new RuntimeException('Unable to determine authentication model from configuration.');
         }
 
-        if (method_exists($model, 'findOrNewForPassportVerifyCodeGrant')) {
-            $user = (new $model)->findOrNewForPassportVerifyCodeGrant($phoneNumber);
-        } else {
-            throw OAuthServerException::serverError("Method [findOrNewForPassportVerifyCodeGrant] does not exist on {$model} class");
+        $userModel = new $model;
+        if (!$userModel instanceof PhoneVerificationCodeGrantUserInterface) {
+            $interfaceName = PhoneVerificationCodeGrantUserInterface::class;
+            throw OAuthServerException::serverError("{$model} class must implement the {$interfaceName} interface");
         }
 
-        if (! $user) {
+        $user = (new $model)->findOrNewForPassportVerifyCodeGrant($phoneNumber);
+
+        if (!$user || !$user->validateForPassportVerifyCodeGrant($code)) {
             return;
-        } elseif (method_exists($user, 'validateForPassportVerifyCodeGrant')) {
-            if (! $user->validateForPassportVerifyCodeGrant($code)) {
-                return;
-            }
-        } else {
-            throw OAuthServerException::serverError("Method [validateForPassportVerifyCodeGrant] does not exist on {$model} class");
         }
 
         return new User($user->getAuthIdentifier());
