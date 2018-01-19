@@ -78,14 +78,14 @@ class PhoneVerificationCodeGrant extends AbstractGrant
             throw OAuthServerException::invalidRequest('phone_number');
         }
 
-        $code = $this->getRequestParameter('code', $request);
-        if (is_null($code)) {
-            throw OAuthServerException::invalidRequest('code');
+        $verificationCode = $this->getRequestParameter('verification_code', $request);
+        if (is_null($verificationCode)) {
+            throw OAuthServerException::invalidRequest('verification_code');
         }
 
         $user = $this->userRepository->getUserEntityByUserCredentials(
             $phoneNumber,
-            $code,
+            $verificationCode,
             $this->getIdentifier(),
             $client
         );

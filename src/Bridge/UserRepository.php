@@ -14,7 +14,7 @@ class UserRepository implements UserRepositoryInterface
     /**
      * {@inheritdoc}
      */
-    public function getUserEntityByUserCredentials($phoneNumber, $code, $grantType, ClientEntityInterface $clientEntity)
+    public function getUserEntityByUserCredentials($phoneNumber, $verificationCode, $grantType, ClientEntityInterface $clientEntity)
     {
         $provider = config('auth.guards.api.provider');
 
@@ -30,7 +30,7 @@ class UserRepository implements UserRepositoryInterface
 
         $user = (new $model)->findOrNewForPassportVerifyCodeGrant($phoneNumber);
 
-        if (!$user || !$user->validateForPassportVerifyCodeGrant($code)) {
+        if (!$user || !$user->validateForPassportVerifyCodeGrant($verificationCode)) {
             return;
         }
 
