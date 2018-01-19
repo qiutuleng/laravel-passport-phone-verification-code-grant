@@ -21,10 +21,10 @@ class UserRepository implements UserRepositoryInterface
             throw new RuntimeException('Unable to determine authentication model from configuration.');
         }
 
-        if (method_exists($model, 'findForPassport')) {
-            $user = (new $model)->findForPassport($phoneNumber);
+        if (method_exists($model, 'findOrNewForPassportVerifyCodeGrant')) {
+            $user = (new $model)->findOrNewForPassportVerifyCodeGrant($phoneNumber);
         } else {
-            $user = (new $model)->where('email', $phoneNumber)->first();
+            throw OAuthServerException::serverError("Method [findOrNewForPassportVerifyCodeGrant] does not exist on {$model} class");
         }
 
         if (! $user) {
