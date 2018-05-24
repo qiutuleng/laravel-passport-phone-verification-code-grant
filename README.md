@@ -16,6 +16,8 @@ composer require qiutuleng/laravel-passport-phone-verification-code-grant
 
 ## Laravel 
 
+If your laravel version is greater or equal to `5.5`, the service provider will be attached automatically.
+
 Other versions, you must needs add `\QiuTuleng\PhoneVerificationCodeGrant\PhoneVerificationCodeGrantServiceProvider::class` to the `providers` array in `config/app.php`:
 
 ```php
