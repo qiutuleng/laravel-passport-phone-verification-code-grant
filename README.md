@@ -1,8 +1,8 @@
-## Introduction
+# Introduction
 
 Resource owner phone verification code credentials grant for Laravel Passport
 
-## Install
+# Install
 
 **You must installed [laravel/passport](http://laravel.com/docs/master/passport) and configrue before installing this package.**
 
@@ -12,10 +12,9 @@ Under your working folder and run the command in terminal:
 composer require qiutuleng/laravel-passport-phone-verification-code-grant
 ```
 
-## Setup
+# Setup
 
-### Laravel 
-If your laravel version is greater or equal to `5.5`, the service provider will be attached automatically.
+## Laravel 
 
 Other versions, you must needs add `\QiuTuleng\PhoneVerificationCodeGrant\PhoneVerificationCodeGrantServiceProvider::class` to the `providers` array in `config/app.php`:
 
@@ -29,16 +28,18 @@ Other versions, you must needs add `\QiuTuleng\PhoneVerificationCodeGrant\PhoneV
 ]
 ```
 
-### Lumen
+## Lumen
 
 ```php
 $app->register(\QiuTuleng\PhoneVerificationCodeGrant\PhoneVerificationCodeGrantServiceProvider::class);
 ```
 
-## How to use?
+# How to use?
 
-### Configure
+## Configure
+
 1. You must needs implement `\QiuTuleng\PhoneVerificationCodeGrant\Interfaces\PhoneVerificationCodeGrantUserInterface` interface in your `User` model.
+
 ```php
 <?php
 
@@ -55,7 +56,7 @@ class User extends Authenticatable implement PhoneVerificationCodeGrantUserInter
 }
 ```
 
-2. Add `findOrNewForPassportVerifyCodeGrant` and `validateForPassportVerifyCodeGrant` methods to `User` model.
+2. Add `findOrNewForPassportVerifyCodeGrant` and `validateForPassportVerifyCodeGrant` methods to your `User` model.
 
 ```php
 /**
@@ -72,6 +73,7 @@ public function findOrCreateForPassportVerifyCodeGrant($phoneNumber)
     // If the phone number is not exists in users table, will be fail to authenticate.
     // return static::where('mobile', '=', $phoneNumber)->first();
 }
+
 /**
  * Check the verification code is valid.
  *
@@ -87,7 +89,8 @@ public function validateForPassportVerifyCodeGrant($verificationCode)
 ```
 
 
-### Request Tokens
+## Request Tokens
+
 you may request an access token by issuing a `POST` request to the `/oauth/token` route with the user's phone number and verification code.
 
 ```php
@@ -107,5 +110,6 @@ $response = $http->post('http://your-app.com/oauth/token', [
 return json_decode((string) $response->getBody(), true);
 ```
 
-### More
+## More
+
 You can check out the [Laravel/Passport](https://laravel.com/docs/master/passport) official documentation to learn more
