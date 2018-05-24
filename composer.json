@@ -1,6 +1,6 @@
 {
-    "name": "qiutuleng/laravel-passport-phone-verification-code",
-    "description": "A phone verification code token grant for Laravel Passport",
+    "name": "qiutuleng/laravel-passport-phone-verification-code-grant",
+    "description": "Resource owner phone verification code credentials grant for Laravel Passport",
     "license": "MIT",
     "authors": [
         {
@@ -18,9 +18,6 @@
         }
     },
     "extra": {
-        "branch-alias": {
-            "dev-master": "1.0-dev"
-        },
         "laravel": {
             "providers": [
                 "QiuTuleng\\PhoneVerificationCodeGrant\\PhoneVerificationCodeGrantServiceProvider"
