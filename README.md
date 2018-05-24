@@ -4,8 +4,6 @@ Resource owner phone verification code credentials grant for Laravel Passport
 
 # Install
 
-**You must installed [laravel/passport](http://laravel.com/docs/master/passport) and configrue before installing this package.**
-
 Under your working folder and run the command in terminal:
 
 ```
