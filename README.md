@@ -74,4 +74,4 @@ return json_decode((string) $response->getBody(), true);
 ```
 
 ### More
-You can check out the Laravel/Passport official documentation to learn more
+You can check out the [Laravel/Passport](https://laravel.com/docs/master/passport) official documentation to learn more
