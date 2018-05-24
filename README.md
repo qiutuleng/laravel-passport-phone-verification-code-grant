@@ -4,10 +4,12 @@ Resource owner phone verification code credentials grant for Laravel Passport
 
 ## Install
 
-Under working folder, run the command:
+**You must installed [laravel/passport](http://laravel.com/docs/master/passport) and configrue before installing this package.**
+
+Under your working folder and run the command in terminal:
 
 ```
-composer require qiutuleng/laravel-passport-phone-verification-code
+composer require qiutuleng/laravel-passport-phone-verification-code-grant
 ```
 
 ## Setup
@@ -35,8 +37,8 @@ $app->register(\QiuTuleng\PhoneVerificationCodeGrant\PhoneVerificationCodeGrantS
 
 ## How to use?
 
-### Configuring
-You must needs implement `\QiuTuleng\PhoneVerificationCodeGrant\Interfaces\PhoneVerificationCodeGrantUserInterface` interface on your `User` model.
+### Configure
+1. You must needs implement `\QiuTuleng\PhoneVerificationCodeGrant\Interfaces\PhoneVerificationCodeGrantUserInterface` interface in your `User` model.
 ```php
 <?php
 
@@ -52,6 +54,38 @@ class User extends Authenticatable implement PhoneVerificationCodeGrantUserInter
     use HasApiTokens, Notifiable;
 }
 ```
+
+2. Add `findOrNewForPassportVerifyCodeGrant` and `validateForPassportVerifyCodeGrant` methods to `User` model.
+
+```php
+/**
+ * Find or create a user by phone number
+ *
+ * @param $phoneNumber
+ * @return \Illuminate\Database\Eloquent\Model|null
+ */
+public function findOrCreateForPassportVerifyCodeGrant($phoneNumber)
+{
+    // If you need to automatically register the user.
+    return static::firstOrCreate(['mobile' => $phoneNumber]);
+
+    // If the phone number is not exists in users table, will be fail to authenticate.
+    // return static::where('mobile', '=', $phoneNumber)->first();
+}
+/**
+ * Check the verification code is valid.
+ *
+ * @param $verificationCode
+ * @return boolean
+ */
+public function validateForPassportVerifyCodeGrant($verificationCode)
+{
+    // Check verification code is valid.
+    // return \App\Code::where('mobile', $this->mobile)->where('code', '=', $verificationCode)->where('expired_at', '>', now()->toDatetimeString())->exists();
+    return true;
+}
+```
+
 
 ### Request Tokens
 you may request an access token by issuing a `POST` request to the `/oauth/token` route with the user's phone number and verification code.

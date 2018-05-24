@@ -2,12 +2,13 @@
 
 namespace QiuTuleng\PhoneVerificationCodeGrant\Bridge;
 
+use Illuminate\Database\Eloquent\Model;
 use Laravel\Passport\Bridge\User;
+use League\OAuth2\Server\Entities\ClientEntityInterface;
 use League\OAuth2\Server\Exception\OAuthServerException;
+use League\OAuth2\Server\Repositories\UserRepositoryInterface;
 use QiuTuleng\PhoneVerificationCodeGrant\Interfaces\PhoneVerificationCodeGrantUserInterface;
 use RuntimeException;
-use League\OAuth2\Server\Entities\ClientEntityInterface;
-use League\OAuth2\Server\Repositories\UserRepositoryInterface;
 
 class UserRepository implements UserRepositoryInterface
 {
@@ -22,13 +23,15 @@ class UserRepository implements UserRepositoryInterface
             throw new RuntimeException('Unable to determine authentication model from configuration.');
         }
 
-        $userModel = new $model;
-        if (!$userModel instanceof PhoneVerificationCodeGrantUserInterface) {
+        /** @var Model $userInstance */
+        $userInstance = new $model;
+        if (!$userInstance instanceof PhoneVerificationCodeGrantUserInterface) {
             $interfaceName = PhoneVerificationCodeGrantUserInterface::class;
-            throw OAuthServerException::serverError("{$model} class must implement the {$interfaceName} interface");
+            throw OAuthServerException::serverError("Must needs implement `{$interfaceName}` interface in your `{$model}` model.");
         }
 
-        $user = (new $model)->findOrNewForPassportVerifyCodeGrant($phoneNumber);
+        /** @var PhoneVerificationCodeGrantUserInterface $user */
+        $user = $userInstance->findOrCreateForPassportVerifyCodeGrant($phoneNumber);
 
         if (!$user || !$user->validateForPassportVerifyCodeGrant($verificationCode)) {
             return;
