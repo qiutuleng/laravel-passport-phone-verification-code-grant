@@ -1,24 +1,22 @@
-# Introduction
+# 介绍
 
-Resource owner phone verification code credentials grant for Laravel Passport
+基于Laravel Passport的手机验证码授权
 
-[中文文档 / Chinese document](./README-zh-CN.md)
+# 安装
 
-# Install
-
-Under your working folder and run the command in terminal:
+进入到你的项目目录，然后运行以下命令
 
 ```bash
 composer require qiutuleng/laravel-passport-phone-verification-code-grant
 ```
 
-# Setup
+# 设置
 
-## Laravel 
+## Laravel
 
-If your laravel version is greater or equal to `5.5`, the service provider will be attached automatically.
+如果你的Laravel版本大于等于`5.5`，服务提供者将会自动注册到程序中。
 
-Other versions, you must needs add `\QiuTuleng\PhoneVerificationCodeGrant\PhoneVerificationCodeGrantServiceProvider::class` to the `providers` array in `config/app.php`:
+其他版本你需要把`\QiuTuleng\PhoneVerificationCodeGrant\PhoneVerificationCodeGrantServiceProvider::class`添加到`config/app.php`中的`providers`属性中。
 
 ```php
 'providers' => [
@@ -32,15 +30,17 @@ Other versions, you must needs add `\QiuTuleng\PhoneVerificationCodeGrant\PhoneV
 
 ## Lumen
 
+你可以在`app/Providers/AppServiceProvider.php`的`register`函数中添加以下代码注册服务提供者。
+
 ```php
 $app->register(\QiuTuleng\PhoneVerificationCodeGrant\PhoneVerificationCodeGrantServiceProvider::class);
 ```
 
-# How to use?
+# 如何使用？
 
-## Configure
+## 配置
 
-1. You must needs implement `\QiuTuleng\PhoneVerificationCodeGrant\Interfaces\PhoneVerificationCodeGrantUserInterface` interface in your `User` model.
+1. 你必须在 `User` Model中实现 `\QiuTuleng\PhoneVerificationCodeGrant\Interfaces\PhoneVerificationCodeGrantUserInterface` 接口。
 
 ```php
 <?php
@@ -58,7 +58,7 @@ class User extends Authenticatable implement PhoneVerificationCodeGrantUserInter
 }
 ```
 
-2. Add `findOrNewForPassportVerifyCodeGrant` and `validateForPassportVerifyCodeGrant` methods to your `User` model.
+2. 在 `User` Model中实现接口定义的 `findOrNewForPassportVerifyCodeGrant` 方法和 `validateForPassportVerifyCodeGrant` 方法。
 
 ```php
 /**
@@ -91,9 +91,9 @@ public function validateForPassportVerifyCodeGrant($verificationCode)
 ```
 
 
-## Request Tokens
+## 请求Token
 
-you may request an access token by issuing a `POST` request to the `/oauth/token` route with the user's phone number and verification code.
+你可以使用`POST`方式访问`/oautn/token`接口来获取Token，具体请求参数参照以下代码。
 
 ```php
 $http = new GuzzleHttp\Client;
@@ -112,6 +112,6 @@ $response = $http->post('http://your-app.com/oauth/token', [
 return json_decode((string) $response->getBody(), true);
 ```
 
-## More
+## 更多
 
-You can check out the [Laravel/Passport](https://laravel.com/docs/master/passport) official documentation to learn more
+你可以访问 [Laravel/Passport](https://laravel.com/docs/master/passport) 官方文档来了解更多信息。
