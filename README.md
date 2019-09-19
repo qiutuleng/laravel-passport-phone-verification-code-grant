@@ -40,7 +40,7 @@ $app->register(\QiuTuleng\PhoneVerificationCodeGrant\PhoneVerificationCodeGrantS
 
 ## Configure
 
-1. You must needs implement `\QiuTuleng\PhoneVerificationCodeGrant\Interfaces\PhoneVerificationCodeGrantUserInterface` interface in your `User` model.
+1. You must implement `\QiuTuleng\PhoneVerificationCodeGrant\Interfaces\PhoneVerificationCodeGrantUserInterface` interface in your `User` model.
 
 ```php
 <?php
@@ -93,7 +93,7 @@ public function validateForPassportVerifyCodeGrant($verificationCode)
 
 ## Request Tokens
 
-you may request an access token by issuing a `POST` request to the `/oauth/token` route with the user's phone number and verification code.
+You may request an access token by issuing a `POST` request to the `/oauth/token` route with the user's phone number and verification code.
 
 ```php
 $http = new GuzzleHttp\Client;
@@ -111,6 +111,19 @@ $response = $http->post('http://your-app.com/oauth/token', [
 
 return json_decode((string) $response->getBody(), true);
 ```
+
+Also you can rename `phone_number` and `verification_code` fields in config file:
+
+To do this, add keys in `config/passport.php`, example:
+```php
+//...
+    'phone_verification' => [
+        'phone_number_request_key' => 'phone',
+        'verification_code_request_key' => 'verification_code',
+    ],
+//...
+```
+
 
 ## More
 

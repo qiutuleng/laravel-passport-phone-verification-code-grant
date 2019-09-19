@@ -73,14 +73,16 @@ class PhoneVerificationCodeGrant extends AbstractGrant
      */
     protected function validateUser(ServerRequestInterface $request, ClientEntityInterface $client)
     {
-        $phoneNumber = $this->getRequestParameter('phone_number', $request);
+        $requestPhoneNumberKey = config('passport.phone_verification.phone_number_request_key', 'phone_number');
+        $phoneNumber = $this->getRequestParameter($requestPhoneNumberKey, $request);
         if (is_null($phoneNumber)) {
-            throw OAuthServerException::invalidRequest('phone_number');
+            throw OAuthServerException::invalidRequest($requestPhoneNumberKey);
         }
 
-        $verificationCode = $this->getRequestParameter('verification_code', $request);
+        $requestVerificationCode = config('passport.phone_verification.verification_code_request_key', 'verification_code');
+        $verificationCode = $this->getRequestParameter($requestVerificationCode, $request);
         if (is_null($verificationCode)) {
-            throw OAuthServerException::invalidRequest('verification_code');
+            throw OAuthServerException::invalidRequest($requestVerificationCode);
         }
 
         $user = $this->userRepository->getUserEntityByUserCredentials(
