@@ -42,7 +42,7 @@ $app->register(\QiuTuleng\PhoneVerificationCodeGrant\PhoneVerificationCodeGrantS
 
 ### Configure
 
-1. You must implement `\QiuTuleng\PhoneVerificationCodeGrant\Interfaces\PhoneVerificationCodeGrantUserInterface` interface in your `User` model.
+1. You must needs implement `\QiuTuleng\PhoneVerificationCodeGrant\Interfaces\PhoneVerificationCodeGrantUserInterface` interface in your `User` model.
 
    ```php
    <?php
@@ -54,7 +54,7 @@ $app->register(\QiuTuleng\PhoneVerificationCodeGrant\PhoneVerificationCodeGrantS
    use Illuminate\Foundation\Auth\User as Authenticatable;
    use QiuTuleng\PhoneVerificationCodeGrant\Interfaces\PhoneVerificationCodeGrantUserInterface;
    
-   class User extends Authenticatable implement PhoneVerificationCodeGrantUserInterface
+   class User extends Authenticatable implements PhoneVerificationCodeGrantUserInterface
    {
        use HasApiTokens, Notifiable;
    }

@@ -54,7 +54,7 @@ $app->register(\QiuTuleng\PhoneVerificationCodeGrant\PhoneVerificationCodeGrantS
    use Illuminate\Foundation\Auth\User as Authenticatable;
    use QiuTuleng\PhoneVerificationCodeGrant\Interfaces\PhoneVerificationCodeGrantUserInterface;
    
-   class User extends Authenticatable implement PhoneVerificationCodeGrantUserInterface
+   class User extends Authenticatable implements PhoneVerificationCodeGrantUserInterface
    {
        use HasApiTokens, Notifiable;
    }
