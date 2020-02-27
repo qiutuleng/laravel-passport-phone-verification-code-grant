@@ -17,16 +17,9 @@ class PhoneVerificationCodeGrantServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        if (!$this->app->runningInConsole() || $this->app->runningUnitTests()) {
-            $this->registerGrantType();
-        }
-    }
-
-    protected function registerGrantType()
-    {
-        $this->app
-            ->make(AuthorizationServer::class)
-            ->enableGrantType($this->makeVerificationCodeGrant(), Passport::tokensExpireIn());
+        $this->app->resolving(AuthorizationServer::class, function (AuthorizationServer $server) {
+            $server->enableGrantType($this->makeVerificationCodeGrant(), Passport::tokensExpireIn());
+        });
     }
 
     protected function makeVerificationCodeGrant()
