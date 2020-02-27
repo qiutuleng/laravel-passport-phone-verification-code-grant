@@ -11,11 +11,11 @@ use QiuTuleng\PhoneVerificationCodeGrant\Bridge\UserRepository;
 class PhoneVerificationCodeGrantServiceProvider extends ServiceProvider
 {
     /**
-     * Bootstrap the application services.
+     * Register any application services.
      *
      * @return void
      */
-    public function boot()
+    public function register()
     {
         $this->app->resolving(AuthorizationServer::class, function (AuthorizationServer $server) {
             $server->enableGrantType($this->makeVerificationCodeGrant(), Passport::tokensExpireIn());
